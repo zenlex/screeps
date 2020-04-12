@@ -1,57 +1,49 @@
-//This is starter code v1.5 (creep quantites set to 5 is probably too high for a fresh restart - set to 3 intiially)
+//starter code v1.1 - tutorial with some additional basic functionality
 
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var controlTower = require('control.tower');
 
 module.exports.loop = function () {
-
+    //clear any unused creep names from memory
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log('Clearing none existent creep memory: ' + name);
+            console.log('Clearing non-existent creep memory: ' + name);
         }
     }
-
+    //check # of harverster creeps and spawn new basic harvester if less than 3
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
 
-    if (harvesters.length < 5) {
+    if (harvesters.length < 3) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'harvester' } });
     }
-
+    //check # of builder creeps and spawn new basic builder if less than 3
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     console.log('Builders: ' + builders.length);
 
-    if (builders.length < 5) {
+    if (builders.length < 3) {
         var newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'builder' } });
     }
-
+    //check # of upgrader creeps and spawn new basic upgrader if less than 3
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
     console.log('Upgraders: ' + builders.length);
 
-    if (upgraders.length < 5) {
+    if (upgraders.length < 3) {
         var newName = 'Upgrader' + Game.time;
         console.log('Spawning new Upgrader: ' + newName);
         Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'upgrader' } });
     }
-
-    /*if(Game.spawns['HSSpawn'].spawning) { 
-       var spawningCreep = Game.creeps[Game.spawns['HSSpawn'].spawning.name];
-       Game.spawns['HSSPawn'].room.visual.text(
-           '🛠️' + spawningCreep.memory.role,
-           Game.spawns['HSSpawn'].pos.x + 1, 
-           Game.spawns['HSSpawn'].pos.y, 
-           {align: 'left', opacity: 0.8});
-   }*/
-
+    //call roll function modules for each existing creep based on role assignment in memory
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
         if (creep.memory.role == 'harvester') {
@@ -65,4 +57,6 @@ module.exports.loop = function () {
         }
 
     }
+    //trigger towers
+    controlTower.run();
 }
