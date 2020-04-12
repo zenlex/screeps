@@ -6,6 +6,13 @@ var roleBuilder = require('role.builder');
 
 module.exports.loop = function () {
 
+    //temporary safemode catastrophy failsafe during defense development....
+    var hostiles = Game.spawns['HSSpawn'].room.find(FIND_HOSTILE_CREEPS);
+    if (hostiles.length > 0) {
+        Game.spawns['HSSpawn'].room.controller.activateSafeMode();
+    }
+    //remove above code to fallback in defense module if all else fails once basic defense module developed
+
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
