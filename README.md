@@ -1,4 +1,6 @@
-This repo contains my starter scripts for the game Screeps, a fun side project for practicing JavaScript and playing with AI principles. 
+This repo contains my starter scripts for the game Screeps.
+I started playing as a fun side project for practicing JavaScript, Git SCM, and playing with AI principles. 
+Anyone is welcome to use this code for their own game.
 
 Future versions will include various phases of growth deployment with switches to enable them as a colony progresses. 
 
