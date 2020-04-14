@@ -8,8 +8,9 @@ var controlTower = require('control.tower');
 module.exports.loop = function () {
 
     //temporary safemode catastrophy failsafe during defense development....
-    if (Game.spawns['HSSpawn'].hits < Game.spanws['HSSpawn'].hitsMax / 2) {
-        Game.spawns['HSSpawn'].room.controller.activateSafeMode();
+    const mySpawn = Game.spawns['HSSpawn'];
+    if (mySpawn.hits < mySpawn.hitsMax / 2) {
+        mySpawn.room.controller.activateSafeMode();
     }
     //remove above code to fallback in defense module if all else fails once basic defense module developed
 
