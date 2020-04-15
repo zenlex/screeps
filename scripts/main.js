@@ -3,7 +3,9 @@
 var roleHarvester = require('role.harvester');
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
+var roleRepairer = require('role.repairer')
 var controlTower = require('control.tower');
+
 
 module.exports.loop = function () {
 
@@ -42,7 +44,7 @@ module.exports.loop = function () {
     }
     //check # of upgrader creeps and spawn new basic upgrader if less than 3
     var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-    console.log('Upgraders: ' + builders.length);
+    console.log('Upgraders: ' + upgraders.length);
 
     if (upgraders.length < 3) {
         var newName = 'Upgrader' + Game.time;
@@ -50,6 +52,18 @@ module.exports.loop = function () {
         Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
             { memory: { role: 'upgrader' } });
     }
+
+    //check # of upgrader creeps and spawn new basic upgrader if less than 3
+    var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
+    console.log('Repairers: ' + repairers.length);
+
+    if (repairers.length < 2) {
+        var newName = 'Repairer' + Game.time;
+        console.log('Spawning new Repairer: ' + newName);
+        Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
+            { memory: { role: 'repairer' } });
+    }
+
     //call roll function modules for each existing creep based on role assignment in memory
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -61,6 +75,9 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
+        }
+        if (creep.memory.role == 'repairer') {
+            roleRepairer.run(creep)
         }
 
     }

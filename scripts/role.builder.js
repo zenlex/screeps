@@ -18,11 +18,27 @@ var roleBuilder = {
         //if creep is supposed to be building, find all available construction sites in the room, sort by progress, and send it to work on the least completed one
         if (creep.memory.building) {
             var conSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-            conSites.sort(function (a, b) { return a.progress > b.progress ? -1 : 1 });
-            if (creep.build(conSites[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(conSites[0], { visualizePathStyle: { stroke: '#ffffff' } });
+            //if stuff to build, build it
+            if (conSites.length > 0) {
+                conSites.sort(function (a, b) { return a.progress > b.progress ? -1 : 1 });
+                if (creep.build(conSites[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(conSites[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                }
+            } else {
+                //if nothing to build, repair
+                creep.say('repairing');
+                var repairNow = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax });
+                //sort by lowest hits
+                repairTargs.sort((a, b) => a.hits - b.hits);
+                //if anything to repair, do the repair
+                if (repairTargs.length > 0) {
+                    if (creep.repair(repairTargs[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(repairTargs[0], { visualizePathStyle: { stroke: '#eeeeee' } })
+                    }
+                }
             }
         }
+
         //if they need more energy send them to the second source in the room (sources[0] prioritized for harvesters and upgraders - adjust based on room layout)
         else {
             var sources = creep.room.find(FIND_SOURCES);
