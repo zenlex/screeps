@@ -17,7 +17,7 @@ var roleRepairer = {
 
         //if creep is supposed to be building, find all available construction sites in the room, sort by progress, and send it to work on the least completed one
         if (creep.memory.repairing) {
-            var repairNow = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax });
+            var repairTargs = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax });
             //sort by lowest hits
             repairTargs.sort((a, b) => a.hits - b.hits);
             //if anything to repair, do the repair
