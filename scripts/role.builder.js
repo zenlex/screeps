@@ -27,7 +27,7 @@ var roleBuilder = {
             } else {
                 //if nothing to build, repair
                 creep.say('repairing');
-                var repairNow = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax });
+                var repairTargs = creep.room.find(FIND_STRUCTURES, { filter: object => object.hits < object.hitsMax });
                 //sort by lowest hits
                 repairTargs.sort((a, b) => a.hits - b.hits);
                 //if anything to repair, do the repair
