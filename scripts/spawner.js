@@ -16,7 +16,7 @@ const priorities = {
     upgrade: 'UPGRADE'
 }
 
-let currPriority = harvest;
+let currPriority = priorities.harvest;
 
 function setPriority(priority) {
     switch (priority) {
