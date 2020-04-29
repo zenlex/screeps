@@ -16,11 +16,8 @@ var roleHarvester = {
         /* ****NEEDS UPDATING WITH NEW STRUCTURE TYPES AS COLONY EVOLVES***** */
         if (creep.memory.harvesting == false) {
             var targets = creep.room.find(FIND_STRUCTURES).filter(structure => (
-                structure.structureType == STRUCTURE_EXTENSION
-                || structure.structureType == STRUCTURE_SPAWN
-                || structure.structureType == STRUCTURE_STORAGE
-                || structure.structureType == STRUCTURE_CONTAINER
-                || structure.structureType == STRUCTURE_TOWER)
+                structure.structureType == STRUCTURE_STORAGE
+                || structure.structureType == STRUCTURE_CONTAINER)
                 && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
             );
             //if there's at least one available target for transfer, go to the first one in the list

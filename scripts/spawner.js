@@ -3,29 +3,31 @@
 //Set Capacities
 
 let spawnCaps = {
-    harvesters: 4,
+    harvesters: 2,
     harvesterMin: 2,
     builders: 3,
     upgraders: 3,
     repairers: 2,
+    couriers: 4
 }
 
 const priorities = {
-    harvest: 'HARVEST',
-    build: 'BUILD',
-    upgrade: 'UPGRADE'
+    1: 'HARVEST',
+    2: 'BUILD',
+    3: 'UPGRADE'
 }
 
-let currPriority = priorities.harvest;
+let currPriority = priorities[1];
 
 function setPriority(priority) {
     switch (priority) {
         case 'HARVEST':
-            spawnCaps.harvesters = 5;
-            spawnCaps.harvesterMin = 3;
+            spawnCaps.harvesters = 3;
+            spawnCaps.harvesterMin = 2;
             spawnCaps.builders = 2;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 1;
+            spawnCaps.couriers = 4;
             break;
 
         case 'BUILD':
@@ -34,6 +36,7 @@ function setPriority(priority) {
             spawnCaps.builders = 5;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 2;
+            spawnCaps.couriers = 4;
             break;
 
         case 'UPGRADE':
@@ -42,6 +45,7 @@ function setPriority(priority) {
             spawnCaps.builders = 2;
             spawnCaps.upgraders = 5;
             spawnCaps.repairers = 1;
+            spawnCaps.couriers = 4;
     }
 }
 
@@ -58,19 +62,19 @@ var spawner = {
 
         setPriority(currPriority);
 
-        //check # of harverster creeps and spawn new basic harvester if less than 3
+        //check # of harverster creeps and spawn new basic harvester if needed
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        console.log('Harvesters: ' + harvesters.length);
+        console.log('Harvesters: ' + harvesters.length + ' out of ' + spawnCaps.harvesters);
 
         if (harvesters.length < spawnCaps.harvesters) {
             var newName = 'Harvester' + Game.time;
             console.log('Spawning new harvester: ' + newName);
-            Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
+            Game.spawns['HSSpawn'].spawnCreep([WORK, WORK, CARRY, CARRY, MOVE], newName,
                 { memory: { role: 'harvester' } });
         }
-        //check # of builder creeps and spawn new basic builder if less than 3
+        //check # of builder creeps and spawn new basic builder if needed
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-        console.log('Builders: ' + builders.length);
+        console.log('Builders: ' + builders.length + ' out of ' + spawnCaps.builders);
 
         if (builders.length < spawnCaps.builders && harvesters.length > spawnCaps.harvesterMin) {
             var newName = 'Builder' + Game.time;
@@ -78,9 +82,9 @@ var spawner = {
             Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { role: 'builder' } });
         }
-        //check # of upgrader creeps and spawn new basic upgrader if less than 3
+        //check # of upgrader creeps and spawn new basic upgrader if needed
         var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
-        console.log('Upgraders: ' + upgraders.length);
+        console.log('Upgraders: ' + upgraders.length + ' out of ' + spawnCaps.upgraders);
 
         if (upgraders.length < spawnCaps.upgraders && harvesters.length > spawnCaps.harvesterMin) {
             var newName = 'Upgrader' + Game.time;
@@ -89,15 +93,26 @@ var spawner = {
                 { memory: { role: 'upgrader' } });
         }
 
-        //check # of upgrader creeps and spawn new basic upgrader if less than 3
+        //check # of repairer creeps and spawn new basic upgrader if needed
         var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
-        console.log('Repairers: ' + repairers.length);
+        console.log('Repairers: ' + repairers.length + ' out of ' + spawnCaps.repairers);
 
         if (repairers.length < spawnCaps.repairers && harvesters.length > spawnCaps.harvesterMin) {
             var newName = 'Repairer' + Game.time;
             console.log('Spawning new Repairer: ' + newName);
             Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
                 { memory: { role: 'repairer' } });
+        }
+
+        //check # of courier creeps and spawn new basic courier if needed
+        var couriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'courier');
+        console.log('Couriers: ' + couriers.length + ' out of ' + spawnCaps.couriers);
+
+        if (couriers.length < spawnCaps.couriers && harvesters.length > spawnCaps.harvesterMin) {
+            var newName = 'Courier' + Game.time;
+            console.log('Spawning new Courier: ' + newName);
+            Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName,
+                { memory: { role: 'courier' } });
         }
 
 

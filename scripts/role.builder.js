@@ -41,9 +41,12 @@ var roleBuilder = {
 
         //if they need more energy send them to the second source in the room (sources[0] prioritized for harvesters and upgraders - adjust based on room layout)
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            if (creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], { visualizePathStyle: { stroke: '#ffaa00' } });
+            var sources = creep.room.find(FIND_STRUCTURES).filter(structure => (
+                structure.structureType == STRUCTURE_CONTAINER ||
+                structure.structureType == STRUCTURE_STORAGE)
+                && structure.store[RESOURCE_ENERGY] > 0);
+            if (creep.withdraw(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0])
             }
         }
     }
