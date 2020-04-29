@@ -22,16 +22,18 @@ var roleHarvester = {
             );
             //if there's at least one available target for transfer, go to the first one in the list
             if (targets.length > 0) {
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                var target = creep.pos.findClosestByRange(targets)
+                if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             }
         }
         //if switch is set to harvest, find available sources, go to the first one in the array
         else {
             var sources = creep.room.find(FIND_SOURCES)
-            if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0])
+            var source = creep.pos.findClosestByRange(sources)
+            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source)
             }
         }
     }
