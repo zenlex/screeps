@@ -23,8 +23,9 @@ var roleCourier = {
             );
             //if there's at least one available target for transfer, go to the first one in the list
             if (targets.length > 0) {
-                if (creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+                var target = creep.pos.findClosestByPath(targets);
+                if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
                 }
             }
         }
@@ -34,8 +35,12 @@ var roleCourier = {
                 structure.structureType == STRUCTURE_CONTAINER ||
                 structure.structureType == STRUCTURE_STORAGE)
                 && structure.store[RESOURCE_ENERGY] > 0);
-            if (creep.withdraw(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0])
+            if (sources.length == 0) {
+                sources = creep.room.find(FIND_SOURCES_ACTIVE)
+            }
+            var source = creep.pos.findClosestByPath(sources)
+            if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source)
             }
         }
     }

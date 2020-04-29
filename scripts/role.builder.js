@@ -32,8 +32,9 @@ var roleBuilder = {
                 repairTargs.sort((a, b) => a.hits - b.hits);
                 //if anything to repair, do the repair
                 if (repairTargs.length > 0) {
-                    if (creep.repair(repairTargs[0]) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(repairTargs[0], { visualizePathStyle: { stroke: '#eeeeee' } })
+                    var repairTarg = creep.pos.findClosestByPath(repairTargs)
+                    if (creep.repair(repairTarg) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(repairTarg, { visualizePathStyle: { stroke: '#eeeeee' } })
                     }
                 }
             }
@@ -45,8 +46,9 @@ var roleBuilder = {
                 structure.structureType == STRUCTURE_CONTAINER ||
                 structure.structureType == STRUCTURE_STORAGE)
                 && structure.store[RESOURCE_ENERGY] > 0);
-            if (creep.withdraw(sources[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0])
+            var source = creep.pos.findClosestByPath(sources)
+            if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source)
             }
         }
     }
