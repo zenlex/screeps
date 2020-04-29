@@ -8,6 +8,7 @@ var roleCourier = require('role.courier');
 var controlTower = require('control.tower');
 var spawner = require('spawner')
 
+
 module.exports.loop = function () {
 
     //temporary safemode catastrophy failsafe during defense development....
