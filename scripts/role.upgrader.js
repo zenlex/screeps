@@ -5,7 +5,7 @@ var roleUpgrader = {
         //if they're upgrading and have run out of energy, switch to harvesting more        
         if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] == 0) {
             creep.memory.upgrading = false;
-            creep.say('🔄 harvest');
+            creep.say('🔄 loading');
         }
         //if they're not upgrading and are full on energy, switch to upgrading
         if (!creep.memory.upgrading && creep.store.getFreeCapacity() == 0) {

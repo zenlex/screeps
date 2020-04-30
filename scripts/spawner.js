@@ -68,7 +68,7 @@ var spawner = {
 
         setPriority(currPriority);
         const harvesterCaps = {
-            0: 3,
+            0: 2,
             1: 1
         }
         //check array of energy sources and make sure each one has an assigned harvester
