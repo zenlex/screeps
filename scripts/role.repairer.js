@@ -25,6 +25,9 @@ var roleRepairer = {
                 if (creep.repair(repairTargs[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(repairTargs[0], { visualizePathStyle: { stroke: '#eeeeee' } })
                 }
+            } else {
+                creep.memory.role = 'courier';
+                creep.memory.loading = 'true';
             }
         }
 

@@ -1,9 +1,12 @@
 //function to handle assessing current population and spawning accordingly
 
+//Store all available energy sources in memory
+var sources = Game.spawns.HSSpawn.room.find(FIND_SOURCES);
+Game.spawns.HSSpawn.memory.sources = sources;
+
 //Set Capacities
 
 let spawnCaps = {
-    harvesters: 2,
     harvesterMin: 2,
     builders: 3,
     upgraders: 3,
@@ -23,8 +26,6 @@ let currPriority = priorities[0];
 function setPriority(priority) {
     switch (priority) {
         case 'BALANCED':
-            spawnCaps.harvesters = 3;
-            spawnCaps.harvesterMin = 2;
             spawnCaps.builders = 3;
             spawnCaps.upgraders = 3;
             spawnCaps.repairers = 2;
@@ -32,17 +33,14 @@ function setPriority(priority) {
             break;
 
         case 'HARVEST':
-            spawnCaps.harvesters = 4;
-            spawnCaps.harvesterMin = 2;
+            spawnCaps.harvesterMin = 3;
             spawnCaps.builders = 1;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 2;
+            spawnCaps.couriers = 4;
             break;
 
         case 'BUILD':
-            spawnCaps.harvesters = 3;
-            spawnCaps.harvesterMin = 2;
             spawnCaps.builders = 4;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 2;
@@ -50,12 +48,10 @@ function setPriority(priority) {
             break;
 
         case 'UPGRADE':
-            spawnCaps.harvesters = 3;
-            spawnCaps.harvesterMin = 2;
             spawnCaps.builders = 1;
             spawnCaps.upgraders = 4;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 3;
+            spawnCaps.couriers = 2;
     }
 }
 
@@ -71,17 +67,22 @@ var spawner = {
         }
 
         setPriority(currPriority);
-
-        //check # of harverster creeps and spawn new basic harvester if needed
-        var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-        console.log('Harvesters: ' + harvesters.length + ' out of ' + spawnCaps.harvesters);
-
-        if (harvesters.length < spawnCaps.harvesters) {
-            var newName = 'Harvester' + Game.time;
-            console.log('Spawning new harvester: ' + newName);
-            Game.spawns['HSSpawn'].spawnCreep([WORK, WORK, CARRY, MOVE], newName,
-                { memory: { role: 'harvester' } });
+        const harvesterCaps = {
+            0: 3,
+            1: 1
         }
+        //check array of energy sources and make sure each one has an assigned harvester
+        for (let sourceInd in Game.spawns.HSSpawn.memory.sources) {
+            var myHarvester = _.filter(Game.creeps, creep => creep.memory.sourceId === sourceInd);
+            //console.log('myHarvester = ' + myHarvester.length + ' of ' + harvesterCaps[sourceInd]);
+            if (myHarvester.length < harvesterCaps[sourceInd]) {
+                var newName = 'Harvester' + Game.time;
+                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, CARRY, MOVE], newName, { memory: { role: 'harvester', sourceId: sourceInd } })
+                console.log('Spawning new harvester: ' + newName + 'assigned to source: ' + sourceInd);
+            }
+        }
+        var harvesters = _.filter(Game.creeps, creep => creep.memory.role == 'harvester');
+        //console.log('Harvesters = ' + harvesters);
         //check # of courier creeps and spawn new basic courier if needed
         var couriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'courier');
         console.log('Couriers: ' + couriers.length + ' out of ' + spawnCaps.couriers);
