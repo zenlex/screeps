@@ -13,14 +13,13 @@ var roleHarvester = {
             creep.say('transferring');
         }
         //for transferring, find all relevant structure types that have available storage capacity
-        /* ****NEEDS UPDATING WITH NEW STRUCTURE TYPES AS COLONY EVOLVES***** */
         if (creep.memory.harvesting == false) {
             var targets = creep.room.find(FIND_STRUCTURES).filter(structure => (
                 structure.structureType == STRUCTURE_STORAGE
                 || structure.structureType == STRUCTURE_CONTAINER)
                 && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
             );
-            //if there's at least one available target for transfer, go to the first one in the list
+            //if there's at least one available target for transfer, go to the closest one in the list
             if (targets.length > 0) {
                 var target = creep.pos.findClosestByRange(targets)
                 if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
@@ -30,8 +29,8 @@ var roleHarvester = {
         }
         //if switch is set to harvest, find available sources, go to the first one in the array
         else {
-            var sources = creep.room.find(FIND_SOURCES)
-            var source = creep.pos.findClosestByRange(sources)
+            var sources = creep.room.find(FIND_SOURCES);
+            var source = sources[creep.memory.sourceId];
             if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source)
             }
