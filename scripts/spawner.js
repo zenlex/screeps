@@ -48,10 +48,10 @@ function setPriority(priority) {
             break;
 
         case 'UPGRADE':
-            spawnCaps.builders = 1;
-            spawnCaps.upgraders = 4;
+            spawnCaps.builders = 2;
+            spawnCaps.upgraders = 5;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 2;
+            spawnCaps.couriers = 5;
     }
 }
 
@@ -68,8 +68,8 @@ var spawner = {
 
         setPriority(currPriority);
         const harvesterCaps = {
-            0: 1,
-            1: 1
+            0: 2,
+            1: 2
         }
         //check array of energy sources and make sure each one has an assigned harvester
         for (let sourceInd in Game.spawns.HSSpawn.memory.sources) {
@@ -77,7 +77,7 @@ var spawner = {
             //console.log('myHarvester = ' + myHarvester.length + ' of ' + harvesterCaps[sourceInd]);
             if (myHarvester.length < harvesterCaps[sourceInd]) {
                 var newName = 'Harvester' + Game.time;
-                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, WORK, CARRY, MOVE], newName, { memory: { role: 'harvester', sourceId: sourceInd } })
+                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, CARRY, MOVE], newName, { memory: { role: 'harvester', sourceId: sourceInd } })
                 console.log('Spawning new harvester: ' + newName + 'assigned to source: ' + sourceInd);
             }
         }
