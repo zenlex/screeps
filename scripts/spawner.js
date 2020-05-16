@@ -69,20 +69,32 @@ var spawner = {
         setPriority(currPriority);
         const harvesterCaps = {
             0: 2,
-            1: 2
+            1: 0
+        }
+
+        const bigHarvesterCaps = {
+            0: 0,
+            1: 1
         }
         //check array of energy sources and make sure each one has an assigned harvester
         for (let sourceInd in Game.spawns.HSSpawn.memory.sources) {
-            var myHarvester = _.filter(Game.creeps, creep => creep.memory.sourceId === sourceInd);
-            //console.log('myHarvester = ' + myHarvester.length + ' of ' + harvesterCaps[sourceInd]);
+            var myHarvester = _.filter(Game.creeps, creep => (creep.memory.sourceId === sourceInd && creep.memory.role === 'harvester'));
             if (myHarvester.length < harvesterCaps[sourceInd]) {
                 var newName = 'Harvester' + Game.time;
-                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, CARRY, MOVE], newName, { memory: { role: 'harvester', sourceId: sourceInd } })
+                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, WORK, CARRY, MOVE], newName, { memory: { role: 'harvester', sourceId: sourceInd } })
                 console.log('Spawning new harvester: ' + newName + 'assigned to source: ' + sourceInd);
             }
         }
-        var harvesters = _.filter(Game.creeps, creep => creep.memory.role == 'harvester');
-        //console.log('Harvesters = ' + harvesters);
+        for (let sourceInd in Game.spawns.HSSpawn.memory.sources) {
+            var bigHarvester = _.filter(Game.creeps, creep => (creep.memory.sourceId === sourceInd && creep.memory.role === 'bigHarvester'));
+            if (bigHarvester.length < bigHarvesterCaps[sourceInd]) {
+                var newName = 'BigHarvester' + Game.time;
+                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'bigHarvester', sourceId: sourceInd } })
+                console.log('Spawning new BigHarvester: ' + newName + 'assigned to source: ' + sourceInd);
+            }
+        }
+        var harvesters = _.filter(Game.creeps, creep => (creep.memory.role == 'harvester' || creep.memory.role == 'bigHarvester'));
+        console.log('Harvesters = ' + harvesters);
         //check # of courier creeps and spawn new basic courier if needed
         var couriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'courier');
         console.log('Couriers: ' + couriers.length + ' out of ' + spawnCaps.couriers);
