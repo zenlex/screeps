@@ -4,7 +4,7 @@
 var sources = Game.spawns.HSSpawn.room.find(FIND_SOURCES);
 Game.spawns.HSSpawn.memory.sources = sources;
 //console logging switch for creep type counts
-const INVENTORY = false;
+const INVENTORY = true;
 //Set Capacities
 
 let spawnCaps = {
@@ -22,7 +22,7 @@ const priorities = {
     3: 'UPGRADE'
 }
 
-let currPriority = priorities[1];
+let currPriority = priorities[0];
 
 function setPriority(priority) {
     switch (priority) {
@@ -34,7 +34,6 @@ function setPriority(priority) {
             break;
 
         case 'HARVEST':
-            spawnCaps.harvesterMin = 3;
             spawnCaps.builders = 1;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 1;
@@ -147,7 +146,7 @@ var spawner = {
         //check array of sender links and make sure each one has an assigned harvester
         for (var linkInd of sendLinkIds) {
             var myLinkRunners = _.filter(Game.creeps, creep => creep.memory.linkId == linkInd);
-            if (myLinkRunners.length < 2) {
+            if (myLinkRunners.length < 1) {
                 var newName = 'LinkSender' + Game.time;
                 Game.spawns.HSSpawn.spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: 'linkSender', linkId: linkInd, targetLink: recLinkIds[0] } })
                 console.log('Spawning new linkRunner: ' + newName + 'assigned to link: ' + linkInd, 'with target: ', recLinkIds[0]);
