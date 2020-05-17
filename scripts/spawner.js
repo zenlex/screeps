@@ -22,7 +22,7 @@ const priorities = {
     3: 'UPGRADE'
 }
 
-let currPriority = priorities[2];
+let currPriority = priorities[1];
 
 function setPriority(priority) {
     switch (priority) {
@@ -42,17 +42,17 @@ function setPriority(priority) {
             break;
 
         case 'BUILD':
-            spawnCaps.builders = 7;
+            spawnCaps.builders = 6;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 2;
-            spawnCaps.couriers = 4;
+            spawnCaps.couriers = 3;
             break;
 
         case 'UPGRADE':
             spawnCaps.builders = 2;
-            spawnCaps.upgraders = 7;
+            spawnCaps.upgraders = 6;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 4;
+            spawnCaps.couriers = 3;
     }
 }
 
@@ -90,7 +90,7 @@ var spawner = {
             var bigHarvester = _.filter(Game.creeps, creep => (creep.memory.sourceId === sourceInd && creep.memory.role === 'bigHarvester'));
             if (bigHarvester.length < bigHarvesterCaps[sourceInd]) {
                 var newName = 'BigHarvester' + Game.time;
-                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'bigHarvester', sourceId: sourceInd } })
+                Game.spawns.HSSpawn.spawnCreep([WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE], newName, { memory: { role: 'bigHarvester', sourceId: sourceInd } })
                 console.log('Spawning new BigHarvester: ' + newName + 'assigned to source: ' + sourceInd);
             }
         }
