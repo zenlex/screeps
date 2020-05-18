@@ -24,7 +24,7 @@ var roleLinkSender = {
             if (creep.transfer(sender, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(sender, { visualizePathStyle: { stroke: '#ffffff' } });
             }
-            if (sender.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+            if (sender.store.getFreeCapacity(RESOURCE_ENERGY) < 400) {
                 sender.transferEnergy(targetLink)
             }
 

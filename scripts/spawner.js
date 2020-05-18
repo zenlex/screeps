@@ -22,7 +22,7 @@ const priorities = {
     3: 'UPGRADE'
 }
 
-let currPriority = priorities[0];
+let currPriority = priorities[1];
 
 function setPriority(priority) {
     switch (priority) {
@@ -140,7 +140,7 @@ var spawner = {
 
 
         //store all available links in memory
-        const sendLinkIds = ['5ea1a3adfddc012f0fd75ee7']
+        const sendLinkIds = ['5ea1a3adfddc012f0fd75ee7', '5ec1c065b444ee9178d7744c']
         const recLinkIds = ['5ea16a62c1e5724d0034f96a']
 
         //check array of sender links and make sure each one has an assigned harvester
