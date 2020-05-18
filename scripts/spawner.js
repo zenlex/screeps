@@ -30,28 +30,28 @@ function setPriority(priority) {
             spawnCaps.builders = 4;
             spawnCaps.upgraders = 4;
             spawnCaps.repairers = 2;
-            spawnCaps.couriers = 4;
+            spawnCaps.couriers = 2;
             break;
 
         case 'HARVEST':
             spawnCaps.builders = 1;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 4;
+            spawnCaps.couriers = 2;
             break;
 
         case 'BUILD':
             spawnCaps.builders = 6;
             spawnCaps.upgraders = 2;
             spawnCaps.repairers = 2;
-            spawnCaps.couriers = 3;
+            spawnCaps.couriers = 2;
             break;
 
         case 'UPGRADE':
             spawnCaps.builders = 2;
             spawnCaps.upgraders = 6;
             spawnCaps.repairers = 1;
-            spawnCaps.couriers = 3;
+            spawnCaps.couriers = 2;
     }
 }
 
@@ -102,7 +102,7 @@ var spawner = {
         if (couriers.length < spawnCaps.couriers && harvesters.length > spawnCaps.harvesterMin) {
             var newName = 'Courier' + Game.time;
             console.log('Spawning new Courier: ' + newName);
-            Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, MOVE], newName,
+            Game.spawns['HSSpawn'].spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], newName,
                 { memory: { role: 'courier' } });
         }
 
