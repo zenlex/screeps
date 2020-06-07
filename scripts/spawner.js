@@ -282,7 +282,7 @@ var spawner = {
         Game.spawns.HSSpawn.spawnCreep(
           [WORK, WORK, WORK, WORK, CARRY, MOVE],
           newName,
-          { memory: { role: "miner", mineId: mineInd, labId: mindInd } }
+          { memory: { role: "miner", mineId: mineInd, labId: mineInd } }
         );
         console.log(
           "Spawning new Miner: " + newName + "assigned to mine: " + mineInd
