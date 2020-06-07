@@ -1,8 +1,11 @@
 //function to handle assessing current population and spawning accordingly
 
-//Store all available energy sources in memory
+//Store all available energy sources and mineral deposits in memory
 var sources = Game.spawns.HSSpawn.room.find(FIND_SOURCES);
 Game.spawns.HSSpawn.memory.sources = sources;
+var mines = Game.spawns.HSSpawn.room.find(FIND_MINERALS);
+Game.spawns.HSSpawn.memory.mines = mines;
+
 //console logging switch for creep type counts
 const INVENTORY = false;
 //Set Capacities
@@ -264,6 +267,25 @@ var spawner = {
         });
         console.log(
           "Spawning new linkRunner: " + newName + "assigned to link: " + linkInd
+        );
+      }
+    }
+    //miner code
+    for (let mineInd in Game.spawns.HSSpawn.memory.mines) {
+      var myMiner = _.filter(
+        Game.creeps,
+        (creep) =>
+          creep.memory.mineId === mineInd && creep.memory.role === "miner"
+      );
+      if (myMiner.length < 1) {
+        var newName = "Miner" + Game.time;
+        Game.spawns.HSSpawn.spawnCreep(
+          [WORK, WORK, WORK, WORK, CARRY, MOVE],
+          newName,
+          { memory: { role: "miner", mineId: mineInd, labId: mindInd } }
+        );
+        console.log(
+          "Spawning new Miner: " + newName + "assigned to mine: " + mineInd
         );
       }
     }
