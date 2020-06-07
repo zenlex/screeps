@@ -7,7 +7,7 @@ var mines = Game.spawns.HSSpawn.room.find(FIND_MINERALS);
 Game.spawns.HSSpawn.memory.mines = mines;
 
 //console logging switch for creep type counts
-const INVENTORY = false;
+const INVENTORY = true;
 //Set Capacities
 
 let spawnCaps = {
@@ -30,9 +30,9 @@ let currPriority = priorities[0];
 function setPriority(priority) {
   switch (priority) {
     case "BALANCED":
-      spawnCaps.builders = 4;
-      spawnCaps.upgraders = 4;
-      spawnCaps.repairers = 2;
+      spawnCaps.builders = 3;
+      spawnCaps.upgraders = 3;
+      spawnCaps.repairers = 1;
       spawnCaps.couriers = 2;
       break;
 
@@ -52,7 +52,7 @@ function setPriority(priority) {
 
     case "UPGRADE":
       spawnCaps.builders = 2;
-      spawnCaps.upgraders = 6;
+      spawnCaps.upgraders = 4;
       spawnCaps.repairers = 1;
       spawnCaps.couriers = 2;
   }
