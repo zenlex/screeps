@@ -7,39 +7,40 @@ var controlTower = {
       .find(FIND_MY_STRUCTURES)
       .filter((structure) => structure.structureType == STRUCTURE_TOWER);
 
-    if (myTowers.length > 0) {
+    //check for hostiles
+    var targets = myTowers[0].room.find(FIND_HOSTILE_CREEPS);
+    var hostiles = targets.length > 0;
+
+    //attack any hostiles
+    if (hostiles) {
+      for (let tower of myTowers) {
+        for (let target of targets) {
+          tower.attack(target);
+        }
+      }
+    }
+    //if no hostiles, heal creeps first if needed
+    if (!hostiles) {
       for (let tower of myTowers) {
         //heal any creeps
-
         for (creep in Game.creeps) {
           if (creep.hits < creep.hitsMax) {
             tower.heal(creep);
           }
         }
+      }
 
-        //attack any hostiles
-        var targets = tower.room.find(FIND_HOSTILE_CREEPS);
-
-        if (targets.length > 0) {
-          console.log("hostiles found! : ", targets);
-          do {
-            for (let tower of myTowers) {
-              for (let target of targets) {
-                tower.attack(target);
-              }
-            }
-            targets = tower.room.find(FIND_HOSTILE_CREEPS);
-          } while (targets.length > 0);
-        }
-
-        //repair structures if energy still above 50%
+      //repair structures if energy still above 50%
+      for (let tower of myTowers) {
         if (
           tower.store.getFreeCapacity(RESOURCE_ENERGY) <
           tower.store.getCapacity(RESOURCE_ENERGY) / 2
         ) {
-          //build array of all damaged structures
+          //build array of all damaged structures except walls
           const repairTargs = tower.room.find(FIND_STRUCTURES, {
-            filter: (object) => object.hits < object.hitsMax,
+            filter: (object) =>
+              object.hits < object.hitsMax &&
+              object.structureType != STRUCTURE_WALL,
           });
           //sort by lowest hits
           repairTargs.sort((a, b) => a.hits - b.hits);

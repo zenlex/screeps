@@ -25,7 +25,7 @@ const priorities = {
   3: "UPGRADE",
 };
 
-let currPriority = priorities[0];
+let currPriority = priorities[1];
 
 function setPriority(priority) {
   switch (priority) {

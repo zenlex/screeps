@@ -46,14 +46,17 @@ module.exports.loop = function () {
     var myTowers = Game.spawns.HSSpawn.room
       .find(FIND_MY_STRUCTURES)
       .filter((structure) => structure.structureType == STRUCTURE_TOWER);
-    var towernrg;
+    var towernrg = 0;
     for (let tower of myTowers) {
-      towernrg += tower.store.energy;
+      console.log("Tower = ", tower);
+      towernrg += tower.store[RESOURCE_ENERGY];
     }
     if (myTowers.length > 1) {
       towernrg /= myTowers.length;
     }
-    if (myTowers.length > 0 && towernrg < 600) {
+    console.log("towernrg = ", towernrg);
+    console.log("# of towers = ", myTowers.length);
+    if (myTowers.length > 0 && towernrg < 700) {
       if (creep.memory.role == "linkSender") {
         roleLinkSender.run(creep);
       }
