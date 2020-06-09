@@ -24,9 +24,12 @@ var controlTower = {
           console.log("hostiles found! : ", targets);
           do {
             for (let tower of myTowers) {
-              tower.attack(targets[0]);
+              for (let target of targets) {
+                tower.attack(target);
+              }
             }
-          } while (targets[0] != undefined);
+            targets = tower.room.find(FIND_HOSTILE_CREEPS);
+          } while (targets.length > 0);
         }
 
         //repair structures if energy still above 50%

@@ -43,11 +43,23 @@ module.exports.loop = function () {
     if (creep.memory.role == "courier") {
       roleCourier.run(creep);
     }
-    if (creep.memory.role == "linkSender") {
-      roleLinkSender.run(creep);
+    var myTowers = Game.spawns.HSSpawn.room
+      .find(FIND_MY_STRUCTURES)
+      .filter((structure) => structure.structureType == STRUCTURE_TOWER);
+    var towernrg;
+    for (let tower of myTowers) {
+      towernrg += tower.store.energy;
     }
-    if (creep.memory.role == "linkReciever") {
-      roleLinkReciever.run(creep);
+    if (myTowers.length > 1) {
+      towernrg /= myTowers.length;
+    }
+    if (myTowers.length > 0 && towernrg < 600) {
+      if (creep.memory.role == "linkSender") {
+        roleLinkSender.run(creep);
+      }
+      if (creep.memory.role == "linkReciever") {
+        roleLinkReciever.run(creep);
+      }
     }
     if (creep.memory.role == "miner") {
       roleMiner.run(creep);
